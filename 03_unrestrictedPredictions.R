@@ -10,7 +10,7 @@ run <- as.numeric(commandArgs(trailingOnly = T))
 
 {
   sdm_wd <- "/bioing/user/slisovsk/ArcticSDM/SDM_Results/"
-  out_wd <- "/bioing/user/slisovsk/ArcticSDM/Arrays_distRestricted/"
+  out_wd <- "/bioing/user/slisovsk/ArcticSDM/finalRun/Arrays_Unrestricted"
 }
 
 spResults <- tibble(species = list.files(sdm_wd)) %>%
@@ -21,7 +21,7 @@ spResults <- tibble(species = list.files(sdm_wd)) %>%
 sp <- spResults$species[run]
 
 #### Array Map
-load("data/grid_25km.rda")
+load("/bioing/user/slisovsk/ArcticSDM/data/grid_25km.rda")
 ##############
 
 if(!file.exists(glue::glue("{out_wd}/{sp}"))) {
@@ -45,7 +45,7 @@ ext_dist <- model_dist %>% mutate(p = 1) %>% dplyr::select(p) %>% st_rasterize(
 mean <- 1500*1000
 sd   <- 250*1000
 
-if(!file.exists(glue::glue("{out_wd}/{sp}/binArray_distConstraint.rda"))) {
+if(!file.exists(glue::glue("{out_wd}/{sp}/binArray_Unconstraint.rda"))) {
   
   ### Maxent threshold
   maxentTrheshold <- as.numeric(strsplit(
@@ -69,5 +69,5 @@ if(!file.exists(glue::glue("{out_wd}/{sp}/binArray_distConstraint.rda"))) {
   binarArray[1, , , 2] <- listOut[[2]]
   binarArray[1, , , 3] <- listOut[[3]]
   
-  save(binarArray, file = glue::glue("{out_wd}/{sp}/binArray_distConstraint.rda"))
+  save(binarArray, file = glue::glue("{out_wd}/{sp}/binArray_Unconstraint.rda"))
 }
