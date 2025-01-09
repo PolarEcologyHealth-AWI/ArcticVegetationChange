@@ -32,7 +32,7 @@ if(!file.exists(glue::glue("{out_wd}/{sp}"))) {
 proj <- "+proj=laea +lon_0=-170 +lat_0=90"
 load(glue::glue("/bioing/user/slisovsk/ArcticSDM/SDM_Results/{sp}/tmp/modelTab.rda"))
 
-current <- read_stars(glue::glue("{sdm_wd}/{sp}/{sp}_MaxEnt_calibration.tif")) %>% setNames("present")
+current <- read_stars(glue::glue("{sdm_wd}/{sp}/{sp}_MaxEnt_calibration_distRestriction.tif")) %>% setNames("present")
 
 model_dist <- modelTab %>% filter(type == "occurance") %>% st_as_sf(coords = c("lon", "lat"), crs = proj) %>%
   filter(apply(st_distance(.), 1, function(x) min(x[x>0])) < 1500*1000)
