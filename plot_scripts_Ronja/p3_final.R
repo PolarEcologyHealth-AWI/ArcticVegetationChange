@@ -67,7 +67,7 @@ library(stars)
 p11 <- ggplot() +
   geom_stars(data = com1, aes(fill = sp)) +  # Use fill for raster colors
   scale_fill_viridis_c(limits = c(0, 853), na.value = "transparent", name = "species") +  # Apply Viridis color scale and handle NA values
-  labs(title = "A) 2010") +  # Update labels
+  labs(title = "a) 2010") +  # Update labels
   theme(
     axis.text.y = element_blank(),  # Remove y-axis text
     axis.ticks.y = element_blank(),  # Remove y-axis ticks
@@ -87,7 +87,7 @@ print(p11)
 p2s1 <- ggplot() +
   geom_stars(data = com2, aes(fill = sp)) +  # Use fill for raster colors
   scale_fill_viridis_c(limits = c(0, 853), na.value = "transparent", name = "species") +
-  labs(title = "B) 2100 constrained") +  # Update labels
+  labs(title = "b) 2100 constrained") +  # Update labels
   theme(
     axis.text.y = element_blank(),  # Remove y-axis text
     axis.ticks.y = element_blank(),  # Remove y-axis ticks
@@ -106,7 +106,7 @@ p2s1 <- ggplot() +
 p2s5 <- ggplot() +
   geom_stars(data = com3, aes(fill = sp)) +  # Use fill for raster colors
   scale_fill_viridis_c(limits = c(0, 853), na.value = "transparent", name = "species") +
-  labs(title = "C) 2100 unconstrained") +  # Update labels
+  labs(title = "c) 2100 unconstrained") +  # Update labels
   theme(
     axis.text.y = element_blank(),  # Remove y-axis text
     axis.ticks.y = element_blank(),  # Remove y-axis ticks
@@ -210,7 +210,7 @@ plot(com1d)
 p1 <- ggplot() +
   geom_stars(data = com1d, aes(fill = sp)) +  # Use fill for raster colors
   scale_fill_viridis_c(option = "C", limits = c(0, 108), na.value = "transparent", name = "new species") +  # Apply Viridis color scale and handle NA values
-  labs(title = expression(paste("D) ", Delta, " 2100 constrained"))) +  # Update labels    
+  labs(title = expression(paste("d) ", Delta, " 2100 constrained"))) +  # Update labels    
   theme(
     axis.text.y = element_blank(),  # Remove y-axis text
     axis.ticks.y = element_blank(),  # Remove y-axis ticks
@@ -250,7 +250,7 @@ com5d <- gridsf %>%
 p2 <- ggplot() +
   geom_stars(data = com5d, aes(fill = sp)) +  # Use fill for raster colors
   scale_fill_viridis_c(option = "C", limits = c(0, 472), na.value = "transparent", name = "new species") +  # Apply Viridis color scale and handle NA values
-  labs(title = expression(paste("E) ", Delta, " 2100 unconstrained"))) + # Update labels
+  labs(title = expression(paste("e) ", Delta, " 2100 unconstrained"))) + # Update labels
   theme(
     axis.text.y = element_blank(),  # Remove y-axis text
     axis.ticks.y = element_blank(),  # Remove y-axis ticks
@@ -336,7 +336,7 @@ dataplot <- ggplot(spdata_long, aes(x = sp, y = value)) +
   geom_violin(fill="dodgerblue3") +
   stat_summary(fun = median, geom = "crossbar", width = 0.3, color = "white") +
   stat_summary(fun = mean, geom = "point", size = 2, color = "black") +
-  labs(x = "year and scenario", y = "species", title = "F) Richness", fill = "data") +
+  labs(x = "year and scenario", y = "species", title = "f) Richness", fill = "data") +
   theme_minimal() +
   theme(
     plot.title = element_text(size = 16, hjust = 0),
@@ -442,7 +442,7 @@ elev_plot <- ggplot(df_summary %>% filter(scenario %in% c("sig1", "sig5")),
                     labels = c("sig1" = "cons", "sig5" = "uncons"),
                     name = "Scenario") +
   labs(x = "Altitude [m]", y = "New species", 
-       title = "G) Elevation impact",) +
+       title = "g) Elevation impact",) +
   theme_minimal() +
   theme(plot.title = element_text(size = 16, hjust = 0),
           axis.text.x = element_text(angle = 0, vjust = 0.5, hjust = 0.5, size = 14),
