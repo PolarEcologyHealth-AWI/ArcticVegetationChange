@@ -38,8 +38,6 @@ for(y in 1:4){
   dat[is.na(dat)] <- 0
   cormatrix <- cor (dat)
   
-  #save(cormatrix, file = "cormatrix_cells_y4s3.rda")
-  
   distancematrix <- cor2dist(cormatrix)
   
   DM2 <- as.matrix(distancematrix)
@@ -52,7 +50,7 @@ for(y in 1:4){
   
   membercl <- data.frame(group = cl2$membership, label = 1:38657)
   
-  write.csv(membercl, glue::glue("{path}membercl_cells_y{y}s3_ne.csv"), row.names = FALSE)
+  write.csv(membercl, glue::glue("{path}membercl_cells_y{y}s3.csv"), row.names = FALSE)
 }
 
 ##### colours ####
@@ -504,6 +502,24 @@ print(plot2)
       # Keep the original value as a string if none of the above conditions match
     ))
   
+  ##### colours ####
+  library(scales)
+  
+  tundra <- hcl.colors(6, "Greens 3")[1] #tundra
+  tundra2 <- hcl.colors(6, "Greens 3")[2] #tundra
+  tundra3 <- hcl.colors(6, "Greens 3")[3] #tundra
+  tundra4 <- hcl.colors(6, "Greens 3")[4] #tundra
+  
+  taiga_ne <- hcl.colors(6, "Purples")[1] #nearctic
+  taiga_ne2 <- hcl.colors(6, "Purples")[2] #nearctic
+  taiga_ne3 <- hcl.colors(6, "Purples")[3] #nearctic
+  taiga_ne4 <- hcl.colors(6, "Purples")[4] #nearctic
+  
+  taiga_eu <- hcl.colors(6, "Blues 3")[1] #europe
+  taiga_eu_W <- hcl.colors(6, "Blues 3")[2] #europe
+  taiga_eu_E <- hcl.colors(6, "Blues 3")[3] #europe
+  taiga_eu_E2 <- hcl.colors(6, "Blues 3")[4] #europe
+  
   col_sankey2 <- c(
     taiga_ne, taiga_ne2, taiga_eu, taiga_eu_E, taiga_eu_W,
     tundra, tundra2,taiga_ne4, taiga_ne3, taiga_eu_E2,  tundra3)
@@ -644,26 +660,11 @@ print(plot2)
   ##### name clusters #####
   
   ##### y1 ####
-  membercl <- read.csv(glue::glue("{path}membercl_cells_y1s3_sigma1.csv"), sep =",")
-  
-  # Step 1: Identify groups with only one label
-  single_label_groups <- names(which(table(membercl$group) == 1))
-  
-  # Step 2: Update the group values to 0 for these labels
-  membercl$group[membercl$group %in% as.numeric(single_label_groups)] <- 0
-  
-  unique(membercl$group)
-  
-  membercl <- membercl %>%
-    mutate(new_group = case_when(
-      group == 0 ~ NA,
-      group == 1 ~ "taiga, nearctic",
-      group == 6 ~ "tundra",
-      group == 10 ~ NA,
-      group == 11 ~ "taiga, eurasian",
-      group == 31 ~ NA,
-      TRUE ~ as.character(group)  # Keep the original value as a string if none of the above conditions match
-    ))
+ 
+  membercl <- read.csv(glue::glue("{path}membercl1.csv"), sep =",")
+ 
+  summary(as.factor(membercl$new_group))
+ 
   write.csv(membercl, file = glue::glue("{path}membercl1_ne.csv"), row.names = F)
 
   ##### y2 ####
@@ -729,12 +730,6 @@ print(plot2)
   membercldat4 <- membercldat4 %>%
     mutate(new_group = case_when(
       new_group == "14" ~ "taiga, eurasian, E",
-      TRUE ~ as.character(new_group)
-    ))
-  
-  membercldat1 <- membercldat1 %>%
-    mutate(new_group = case_when(
-      new_group == "other" ~ "NA",
       TRUE ~ as.character(new_group)
     ))
   
