@@ -174,60 +174,6 @@ combined_plot_with_legend <- plot_grid(
 print(combined_plot_with_legend)
 ABC <- combined_plot_with_legend
 
-#### violin plot ####
-
-#data
-summary(apply(predArray[,,1,1,1],2, sum, na.rm = TRUE))
-sp1 <- apply(predArray[,,1,1,2],2, sum, na.rm = TRUE)
-sp2 <- apply(predArray[,,4,3,2],2, sum, na.rm = TRUE)
-sp3 <- apply(predArray[,,4,3,1],2, sum, na.rm = TRUE)
-
-spdata <- as.data.frame(cbind(sp1,sp2,sp3))
-spdata$cell <- 1:38657
-
-boxplot(data=spdata[,1:3], x=spdata$cell)
-
-str(spdata)
-
-library(ggplot2)
-library(tidyr)
-
-
-# Reshape the data from wide to long format
-spdata_long <- pivot_longer(spdata, cols = c(sp1, sp2, sp3), names_to = "sp", values_to = "value")
-
-
-spdata_long <- spdata_long %>%
-  mutate(sp = case_when(
-    sp == "sp1" ~ "2010",
-    sp == "sp2" ~ "2100, cons",
-    sp == "sp3" ~ "2100, uncons",
-    TRUE ~ as.character(sp)  # Keep the original value as a string if none of the above conditions match
-  ))
-
-# Create the boxplot
-
-dataplot <- ggplot(spdata_long, aes(x = sp, y = value)) +
-  geom_violin(fill="dodgerblue3") +
-  stat_summary(fun = median, geom = "crossbar", width = 0.3, color = "white") +
-  stat_summary(fun = mean, geom = "point", size = 2, color = "black") +
-  labs(x = "year and scenario", y = "species", title = "F) richness", fill = "data") +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(size = 16, hjust = 0),
-    axis.text.x = element_text(angle = 0, vjust = 0.5, hjust = 0.5, size = 14),
-    axis.title.x = element_text(size = 14),
-    axis.text.y = element_text(size = 14),
-    axis.title.y = element_text(size = 14),
-    legend.position = "none"
-  )
-
-
-print(dataplot)
-
-summary(spdata$sp1)
-summary(spdata$sp2)
-summary(spdata$sp3)
 
 #### DE ####
 
@@ -353,6 +299,61 @@ print(ABCDE)
 
 summary(com5d$sp)
 
+#### violin plot ####
+
+#data
+summary(apply(predArray[,,1,1,1],2, sum, na.rm = TRUE))
+sp1 <- apply(predArray[,,1,1,2],2, sum, na.rm = TRUE)
+sp2 <- apply(predArray[,,4,3,2],2, sum, na.rm = TRUE)
+sp3 <- apply(predArray[,,4,3,1],2, sum, na.rm = TRUE)
+
+spdata <- as.data.frame(cbind(sp1,sp2,sp3))
+spdata$cell <- 1:38657
+
+boxplot(data=spdata[,1:3], x=spdata$cell)
+
+str(spdata)
+
+library(ggplot2)
+library(tidyr)
+
+
+# Reshape the data from wide to long format
+spdata_long <- pivot_longer(spdata, cols = c(sp1, sp2, sp3), names_to = "sp", values_to = "value")
+
+
+spdata_long <- spdata_long %>%
+  mutate(sp = case_when(
+    sp == "sp1" ~ "2010",
+    sp == "sp2" ~ "2100, cons",
+    sp == "sp3" ~ "2100, uncons",
+    TRUE ~ as.character(sp)  # Keep the original value as a string if none of the above conditions match
+  ))
+
+# Create the boxplot
+
+dataplot <- ggplot(spdata_long, aes(x = sp, y = value)) +
+  geom_violin(fill="dodgerblue3") +
+  stat_summary(fun = median, geom = "crossbar", width = 0.3, color = "white") +
+  stat_summary(fun = mean, geom = "point", size = 2, color = "black") +
+  labs(x = "year and scenario", y = "species", title = "F) Richness", fill = "data") +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 16, hjust = 0),
+    axis.text.x = element_text(angle = 0, vjust = 0.5, hjust = 0.5, size = 14),
+    axis.title.x = element_text(size = 14),
+    axis.text.y = element_text(size = 14),
+    axis.title.y = element_text(size = 14),
+    legend.position = "none"
+  )
+
+
+print(dataplot)
+
+summary(spdata$sp1)
+summary(spdata$sp2)
+summary(spdata$sp3)
+
 #### elevation ####
 
 # Download elevation data 
@@ -397,9 +398,6 @@ combined_data5 <- st_join(elevation_c_sf, comc5, join = st_intersects)
 
 dat <- na.omit(combined_data)
 dat5 <- na.omit(combined_data5)
-
-
-str(dat)
 
 df <- dat %>%
   mutate(coords = st_coordinates(geometry)) %>%
@@ -446,8 +444,7 @@ elev_plot <- ggplot(df_summary %>% filter(scenario %in% c("sig1", "sig5")),
   labs(x = "Altitude [m]", y = "New species", 
        title = "G) Elevation impact",) +
   theme_minimal() +
-  theme(
-          plot.title = element_text(size = 16, hjust = 0),
+  theme(plot.title = element_text(size = 16, hjust = 0),
           axis.text.x = element_text(angle = 0, vjust = 0.5, hjust = 0.5, size = 14),
           axis.title.x = element_text(size = 14),
           axis.text.y = element_text(size = 14),
