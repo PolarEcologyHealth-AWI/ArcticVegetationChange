@@ -119,7 +119,7 @@ plot1 <- ggplot() +
   geom_stars(data = com1, aes(fill = as.factor(sp))) +  # Use fill for raster colors
   scale_fill_manual(values = col1, na.value = "transparent", na.translate = FALSE) +  # Ignore NA values) +  # Set custom colors
   theme_minimal() +
-  ggtitle("A)", subtitle = "2010")+
+  ggtitle("a)", subtitle = "2010")+
   labs(fill = "Cell Communities") +  # Update labels #title = "2010", 
   theme(
     plot.title = element_text(size = 16),
@@ -421,7 +421,7 @@ print(plot2)
     geom_boxplot(color = "black", outlier.size = 1, outlier.shape = 16) +
     labs(x = "",  y = "migration distance [km]", title = "new cells") +
     theme_minimal() +
-    labs(title = "B)") + 
+    labs(title = "b)") + 
     # labs(title = ") new cells") +  # Update labels
     theme(
       axis.text.x = element_blank(), #element_text(size = 14, angle = 90, vjust = 0.5, hjust = 1),  # Increase x-axis text size
@@ -531,7 +531,7 @@ print(plot2)
     theme_sankey() +
     theme(legend.position = "none",
           plot.title = element_text(size = 16)) +
-    ggtitle("C)")+
+    ggtitle("c)")+
     labs(x = "", y = "") 
   
   print(C)
@@ -794,7 +794,7 @@ print(plot2)
     geom_point(data = summary_table_long_ne, aes(x = year, y = Value, col = Category), shape = 17, stat = "identity", position = position_dodge()) +
     geom_line(data = summary_table_long_ne, aes(x = year, y = Value, col = Category), stat = "identity", linetype = "dashed", position = position_dodge()) +
     scale_fill_manual(values = c(taiga_eu, taiga_ne, tundra)) +
-    labs(title = "D)",
+    labs(title = "d)",
          x = "",
          y = "colonized cells")+
     # color = "Communities") +  # Change legeend title to "Cluster"
