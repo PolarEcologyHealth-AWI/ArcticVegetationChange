@@ -233,7 +233,7 @@ p1g <- ggplot(result1g, aes(x = reorder(gform, -percent, FUN = median), y = perc
 print(p1g)
 
 
-gform_summary <- result1m %>%
+gform_summary <- result1g %>%
   group_by(gform) %>%
   summarise(mean_percent = mean(percent, na.rm = TRUE),
             median_percent = median(percent, na.rm = TRUE))
