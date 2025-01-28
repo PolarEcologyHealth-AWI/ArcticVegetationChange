@@ -38,6 +38,8 @@ for(y in 1:4){
   dat[is.na(dat)] <- 0
   cormatrix <- cor (dat)
   
+  #save(cormatrix, file = "cormatrix_cells_y4s3.rda")
+  
   distancematrix <- cor2dist(cormatrix)
   
   DM2 <- as.matrix(distancematrix)
@@ -103,7 +105,7 @@ col1 = c(taiga_eu, taiga_ne, tundra)
 ##### join ####
 
 sp_with_groups <- gridsf %>%
-  left_join(membercl %>% select(label, new_group), by = join_by(Id == label))
+  left_join(membercl %>% dplyr::select(label, new_group), by = join_by(Id == label))
 
 # Rasterizing the data with new_group
 com1 <- sp_with_groups %>%
@@ -163,7 +165,7 @@ unique(membercl$new_group)
 ##### join ####
 
 sp_with_groups <- gridsf %>%
-  left_join(membercl %>% select(label, new_group), by = join_by(Id == label))
+  left_join(membercl %>% dplyr::select(label, new_group), by = join_by(Id == label))
 
 # Rasterizing the data with new_group
 com2 <- sp_with_groups %>%
@@ -218,8 +220,8 @@ print(plot2)
   ##### join ####
 
   sp_with_groups <- gridsf %>%
-    left_join(membercl %>% select(label, new_group), by = join_by(Id == label))
-  
+    left_join(membercl %>% dplyr::select(label, new_group), by = join_by(Id == label))
+
   # Rasterizing the data with new_group
   com3 <- sp_with_groups %>%
     mutate(sp = as.factor(new_group)) %>%
@@ -276,7 +278,7 @@ print(plot2)
   library(stars)
   
   sp_with_groups <- gridsf %>%
-    left_join(membercl %>% select(label, new_group), by = join_by(Id == label))
+    left_join(membercl %>% dplyr::select(label, new_group), by = join_by(Id == label))
   
   # Rasterizing the data with new_group
   com4 <- sp_with_groups %>%
@@ -660,11 +662,8 @@ print(plot2)
   ##### name clusters #####
   
   ##### y1 ####
- 
   membercl <- read.csv(glue::glue("{path}membercl1.csv"), sep =",")
- 
-  summary(as.factor(membercl$new_group))
- 
+  
   write.csv(membercl, file = glue::glue("{path}membercl1_ne.csv"), row.names = F)
 
   ##### y2 ####
@@ -730,6 +729,12 @@ print(plot2)
   membercldat4 <- membercldat4 %>%
     mutate(new_group = case_when(
       new_group == "14" ~ "taiga, eurasian, E",
+      TRUE ~ as.character(new_group)
+    ))
+  
+  membercldat1 <- membercldat1 %>%
+    mutate(new_group = case_when(
+      new_group == "other" ~ "NA",
       TRUE ~ as.character(new_group)
     ))
   
