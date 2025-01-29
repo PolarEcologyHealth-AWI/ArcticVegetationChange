@@ -216,6 +216,10 @@ result1g <- result1g %>%
 result1g$type <- "restricted"
 
 
+# Create a new column for custom x-axis labels with offsets
+result1g$label_offset <- ifelse(as.numeric(factor(result1g$gform)) %% 2 == 0, 
+                                "\n", "")
+
 p1g <- ggplot(result1g, aes(x = reorder(gform, -percent, FUN = median), y = percent)) +
   geom_boxplot(fill = "#009E73", outlier.size = 1, outlier.color = "grey50") +
   labs(title = "",
@@ -223,15 +227,19 @@ p1g <- ggplot(result1g, aes(x = reorder(gform, -percent, FUN = median), y = perc
        y = "Reachable habitat share") +
   theme_light() +
   theme(
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
-    strip.background = element_rect(fill = "grey65"),  # Darker grey background for strip
-    strip.text = element_text(color = "white")  # White bold text on strip
+    axis.text.x = element_text(angle = 0, vjust = 0.5, hjust = 0.5),
+    strip.background = element_rect(fill = "grey65"),
+    strip.text = element_text(color = "white")
   ) +
-  facet_wrap(~factor("restricted", levels = c("unrestricted", "restricted")))
-
+  # Modify x-axis labels to alternate offsets
+  scale_x_discrete(labels = function(x) {
+    # Add extra newlines to every second label
+   # ifelse(as.numeric(factor(x)) %% 2 == 0, paste0(x, "\n"), x)    
+    ifelse(as.numeric(factor(x)) %% 2 == 0, paste0(x, "\n\n"), x)
+  }) +
+  facet_wrap(~factor(type, levels = c("unrestricted", "restricted")))
 
 print(p1g)
-
 
 gform_summary <- result1g %>%
   group_by(gform) %>%
